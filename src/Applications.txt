@@ -1,0 +1,96 @@
+﻿cinst DotNet3.5
+cinst DotNet4.5.1
+cinst vcredist2012
+cinst vcredist2010
+cinst vcredist2008
+cinst javaruntime
+cinst webpi
+cinst Atom
+cinst notepad2
+cinst notepadplusplus
+cinst 7zip.install
+cinst winrar
+cinst Firefox
+cinst Opera
+cinst GoogleChrome
+
+$chromePath = "${Env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
+& $chromePath --make-default-browser
+
+cinst putty
+cinst git.install
+cinst kdiff3
+cinst git-credential-winstore
+cinst gitextensions
+cinst TortoiseGit
+cinst tortoisehg
+cinst SourceTree
+cinst vlc
+cinst filezilla
+cinst libreoffice
+cinst adobereader
+cinst paint.net
+cinst windirstat
+cinst linqpad4
+cinst keepass
+cinst dotPeek
+cinst ultravnc
+cinst picasa
+cinst evernote
+cinst NugetPackageExplorer
+cinst SourceCodePro
+cinst sharpdevelop
+cinst intellijidea-community
+cinst fiddler4
+cinst Silverlight
+cinst mysql.workbench
+cinst skype
+cinst greenshot
+cinst dropbox
+
+Set-ExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowFileExtensions
+Enable-RemoteDesktop
+
+cinst IIS7 -source webpi
+cinst BasicAuthentication -source webpi
+cinst WindowsAuthentication -source webpi
+cinst DefaultDocument -source webpi
+cinst HTTPErrors -source webpi
+cinst HTTPLogging -source webpi
+cinst HTTPRedirection -source webpi
+cinst IISManagementConsole -source webpi
+cinst IISManagementScriptsAndTools -source webpi
+cinst IPSecurity -source webpi
+cinst LoggingTools -source webpi
+cinst RequestFiltering -source webpi
+cinst RequestMonitor -source webpi
+cinst StaticContent -source webpi
+cinst StaticContentCompression -source webpi
+cinst Tracing -source webpi
+cinst AdvancedLogging -source webpi
+cinst SEOToolkit -source webpi
+cinst URLAuthorization -source webpi
+cinst UrlRewrite2 -source webpi
+cinst WebSockets -source webpi
+cinst ASPNET45 -source webpi
+cinst ASPNET_REGIIS_NET45 -source webpi
+cinst IISExpress_ByPlatform -source webpi
+cinst WDeployNoSMO -source webpi
+
+Enable-MicrosoftUpdate
+Install-WindowsUpdate -AcceptEula
+
+cinst resharper
+
+Function Install-VsixPackage
+{
+  foreach($line in $input)
+  {
+    %{$data = $line.split(); Install-ChocolateyVsixPackage $($data[0]) $($data[1])}
+  }
+}
+
+$vsixHelperPath = "C:\temp\Arbor.Semper-Idem\VsixHelper"
+$arborSemperIdemPath = "C:\temp\Arbor.Semper-Idem"
+
+& $vsixHelperPath\Arbor.Semper-Idem.VsixHelper.exe $arborSemperIdemPath\VisualStudioExtensions.txt | Install-VsixPackage
